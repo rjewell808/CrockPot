@@ -12,7 +12,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import gruntpie224.crockpot.proxy.*;
 
-@Mod(modid = CrockPot.MODID, name = CrockPot.NAME, version = CrockPot.VERSION)
+@Mod(modid = CrockPot.MODID, name = CrockPot.NAME, version = CrockPot.VERSION, dependencies="required-after:forge@[14.23.2.2611,)", useMetadata=true)
 
 public class CrockPot
 {
