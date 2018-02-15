@@ -1,11 +1,14 @@
 package gruntpie224.crockpot.proxy;
 
+import gruntpie224.crockpot.blocks.BlocksInit;
+import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 
 @Mod.EventBusSubscriber(Side.CLIENT)
@@ -34,5 +37,11 @@ public class ClientProxy extends CommonProxy{
 	@Override
 	public void serverStopping(FMLServerStoppingEvent event){
 		super.serverStopping(event);
+	}
+	
+	@SubscribeEvent
+	public static void registerModels(ModelRegistryEvent event)
+	{
+		BlocksInit.initModels();
 	}
 }

@@ -18,12 +18,15 @@ public class CrockPot
 {
     public static final String MODID = "cp";
     public static final String NAME = "Crock Pot Mod";
-    public static final String VERSION = "0.0.1";
+    public static final String VERSION = "0.0.2";
     public static final String CLIENT_PROXY = "gruntpie224.crockpot.proxy.ClientProxy";
     public static final String COMMON_PROXY = "gruntpie224.crockpot.proxy.CommonProxy";
     
     @SidedProxy(clientSide = CrockPot.CLIENT_PROXY, serverSide = CrockPot.COMMON_PROXY)
     public static CommonProxy proxy;
+    
+    @Mod.Instance
+    public static CrockPot instance;
     
     private static Logger logger = LogManager.getLogger(MODID);
 
