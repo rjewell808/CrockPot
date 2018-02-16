@@ -2,9 +2,19 @@ package gruntpie224.crockpot.gui;
 
 import gruntpie224.crockpot.CrockPot;
 import gruntpie224.crockpot.tileentity.CrockContainerTileEntity;
+import io.netty.buffer.Unpooled;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.main.Main;
+import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.inventory.Container;
+import net.minecraft.network.PacketBuffer;
+import net.minecraft.network.play.client.CPacketCloseWindow;
+import net.minecraft.network.play.client.CPacketCustomPayload;
+import net.minecraft.network.play.client.CPacketUpdateSign;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
 
 public class CrockPotGUIContainer extends GuiContainer{
@@ -50,11 +60,23 @@ public class CrockPotGUIContainer extends GuiContainer{
 	}
 	
 	@Override
+	public void onGuiClosed()
+	{
+
+	}
+	
+	@Override
 	protected void actionPerformed(GuiButton b)
 	{
 		if(b.id == 1)
 		{
-			System.out.println("THIS BUTTON WORKS");
+			crock_te.setCooking(true);
+			String s = "CP|CrockPot";
+            PacketBuffer packetbuffer = new PacketBuffer(Unpooled.buffer());
+            packetbuffer.writeBoolean(true);
+            this.mc.getConnection().sendPacket(new CPacketCustomPayload("CP|CrockPot", packetbuffer));
+            this.mc.player.connection.sendPacket(new CPacketCloseWindow(this.mc.player.openContainer.windowId));
+            this.mc.displayGuiScreen((GuiScreen)null);
 		}
 	}
 
