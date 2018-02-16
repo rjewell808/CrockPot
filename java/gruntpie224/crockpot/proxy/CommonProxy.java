@@ -3,6 +3,7 @@ package gruntpie224.crockpot.proxy;
 import gruntpie224.crockpot.CrockPot;
 import gruntpie224.crockpot.blocks.BlocksInit;
 import gruntpie224.crockpot.blocks.CrockPotBlock;
+import gruntpie224.crockpot.gui.GuiProxy;
 import gruntpie224.crockpot.tileentity.CrockContainerTileEntity;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
@@ -15,6 +16,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 @Mod.EventBusSubscriber
@@ -22,7 +24,9 @@ public class CommonProxy {
 	public void preInit(FMLPreInitializationEvent event){
 		
 	}
-	public void init(FMLInitializationEvent event){}
+	public void init(FMLInitializationEvent event){
+		NetworkRegistry.INSTANCE.registerGuiHandler(CrockPot.instance, new GuiProxy());
+	}
 	public void postInit(FMLPostInitializationEvent event){}
 	public void serverStarting(FMLServerStartingEvent event){}
 	public void serverStopping(FMLServerStoppingEvent event){}
