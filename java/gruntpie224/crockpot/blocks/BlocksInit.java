@@ -8,11 +8,20 @@ import gruntpie224.crockpot.util.RegisterUtil;
 public class BlocksInit {
 	
 	@GameRegistry.ObjectHolder("cp:crockpotblock")
-	public static CrockPotBlock crockpotblock;
+	public static CrockPotBlock crockpot;
+	
+	@GameRegistry.ObjectHolder("cp:crockpot_cooking")
+	public static CrockPotBlock crockpot_cooking;
+	
+	public static void initBlocks(){
+		crockpot = new CrockPotBlock(false);
+		crockpot_cooking = new CrockPotBlock(true);
+	}
 	
 	@SideOnly(Side.CLIENT)
 	public static void initModels()
 	{
-		crockpotblock.initModel();
+		crockpot.initModel();
+		crockpot_cooking.initModel();
 	}
 }

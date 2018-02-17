@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javax.annotation.Nullable;
 
+import gruntpie224.crockpot.blocks.CrockPotBlock;
 import net.minecraft.block.BlockFurnace;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -32,7 +33,8 @@ public class CrockContainerTileEntity extends TileEntity implements ITickable, I
 	public static final int SIZE = 4;
 	private int cookTime;
     private int totalCookTime;
-    private boolean isCooking = false;
+    private int crockBurnTime;
+    private boolean isCooking = true;
 	
 	/** The ItemStacks that hold the items currently being used in the CrockPot */
     private NonNullList<ItemStack> crockItemStacks = NonNullList.<ItemStack>withSize(SIZE, ItemStack.EMPTY);
@@ -173,7 +175,7 @@ public class CrockContainerTileEntity extends TileEntity implements ITickable, I
     
     public boolean isBurning()
     {
-        return isCooking;
+        return crockBurnTime > 0;
     }
 
     @SideOnly(Side.CLIENT)
@@ -184,6 +186,54 @@ public class CrockContainerTileEntity extends TileEntity implements ITickable, I
 	
     int count = 0;
     
+    public void update()
+    {
+        boolean flag = this.isBurning();
+        boolean flag1 = false;
+
+        if (!this.world.isRemote)
+        {
+            if (!this.isBurning() && this.canSmelt())
+            {
+                this.crockBurnTime = 100;
+
+                if (this.isBurning())
+                {
+                    flag1 = true;
+                }
+            }
+
+            if (this.isBurning() && this.canSmelt())
+            {
+                ++this.cookTime;
+
+                if (this.cookTime >= this.totalCookTime)
+                {
+                    this.cookTime = 0;
+                    this.totalCookTime = this.getCookTime(this.crockItemStacks.get(0));
+                    this.smeltItem();
+                    flag1 = true;
+                }
+            }
+            else
+            {
+                this.cookTime = 0;
+                this.crockBurnTime = 0;
+            }
+
+            if (flag != this.isBurning())
+            {
+                flag1 = true;
+                CrockPotBlock.setState(this.isBurning(), this.world, this.pos);
+            }
+        }
+
+        if (flag1)
+        {
+            this.markDirty();
+        }
+    }
+    /*
     @Override
     public void update()
     {
@@ -193,17 +243,17 @@ public class CrockContainerTileEntity extends TileEntity implements ITickable, I
         if (!this.world.isRemote)
         {
             ItemStack itemstack = this.crockItemStacks.get(1);
-            System.out.println("Cooking: " + this.isBurning());
             
             if (this.isBurning())
             {
-                if (this.isBurning() && this.canSmelt())
+                if (this.canSmelt())
                 {
                     ++this.cookTime;
                     
-                    System.out.print("Cooking: " + cookTime);
+                    if(cookTime % 10 == 0)
+                    	System.out.println("Cooking " + cookTime + " : " + this.totalCookTime);
                     
-                    if (this.cookTime == this.totalCookTime)
+                    if (this.cookTime >= this.totalCookTime)
                     {
                         this.cookTime = 0;
                         this.totalCookTime = this.getCookTime(this.crockItemStacks.get(0));
@@ -225,7 +275,7 @@ public class CrockContainerTileEntity extends TileEntity implements ITickable, I
             if (flag != this.isBurning())
             {
                 flag1 = true;
-                BlockFurnace.setState(this.isBurning(), this.world, this.pos);
+                CrockPotBlock.setState(this.isBurning(), this.world, this.pos);
             }
         }
 
@@ -234,6 +284,7 @@ public class CrockContainerTileEntity extends TileEntity implements ITickable, I
             this.markDirty();
         }
     }
+    /*
     
 	/**
      * Returns true if the CrockPot can smelt an item, i.e. has a source item, destination stack isn't full, etc.

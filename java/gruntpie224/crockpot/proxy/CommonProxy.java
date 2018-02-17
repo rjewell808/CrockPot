@@ -34,7 +34,10 @@ public class CommonProxy {
 	@SubscribeEvent
 	public static void registerBlocks(RegistryEvent.Register<Block> event)
 	{
-		event.getRegistry().register(new CrockPotBlock());
+		BlocksInit.initBlocks();
+		
+		event.getRegistry().register(BlocksInit.crockpot);
+		event.getRegistry().register(BlocksInit.crockpot_cooking);
 		
 		GameRegistry.registerTileEntity(CrockContainerTileEntity.class, CrockPot.MODID + "_crockpotblock");
 	}
@@ -42,6 +45,8 @@ public class CommonProxy {
 	@SubscribeEvent
 	public static void registerItems(RegistryEvent.Register<Item> event)
 	{
-		event.getRegistry().register(new ItemBlock(BlocksInit.crockpotblock).setRegistryName(BlocksInit.crockpotblock.getRegistryName()));
+		event.getRegistry().register(new ItemBlock(BlocksInit.crockpot).setRegistryName(BlocksInit.crockpot.getRegistryName()));
+		event.getRegistry().register(new ItemBlock(BlocksInit.crockpot_cooking).setRegistryName(BlocksInit.crockpot_cooking.getRegistryName()));
+		
 	}
 }
