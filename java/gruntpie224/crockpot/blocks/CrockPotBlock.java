@@ -209,4 +209,14 @@ public class CrockPotBlock extends BlockContainer implements ITileEntityProvider
     {
         return EnumBlockRenderType.MODEL;
     }
+    
+    @Override
+    public boolean isBlockNormalCube(IBlockState blockState) {
+        return false;
+    }
+
+    @Override
+    public boolean isOpaqueCube(IBlockState blockState) {
+        return false;
+    }
 }

@@ -1,0 +1,9 @@
+{
+  "parent": "block/orientable",
+  "textures": {
+    "side": "cp:blocks/crockpot",
+	"front": "cp:blocks/crockpot_front_finished",
+	"up": "cp:blocks/crockpot",
+	"down": "cp:blocks/crockpot"
+  }
+}
