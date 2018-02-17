@@ -1,7 +1,10 @@
 package gruntpie224.crockpot.blocks;
 
+import java.util.Random;
+
 import gruntpie224.crockpot.CrockPot;
 import gruntpie224.crockpot.tileentity.CrockContainerTileEntity;
+import gruntpie224.crockpot.util.CPSounds;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.BlockHorizontal;
@@ -17,6 +20,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -25,6 +29,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.Mirror;
 import net.minecraft.util.Rotation;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
@@ -74,7 +79,11 @@ public class CrockPotBlock extends BlockContainer implements ITileEntityProvider
 			return false;
 		
 		if(cooking_state == 0)
+		{
 			playerIn.openGui(CrockPot.instance, GUI_ID, worldIn, pos.getX(), pos.getY(), pos.getZ());
+			worldIn.playSound(null, pos, CPSounds.snd_pot_open, SoundCategory.BLOCKS, 1.0f, 1.0f);
+		}
+		
 		else if(cooking_state == 2)
 		{
 			EntityItem item = new EntityItem(worldIn, pos.getX(), pos.getY() + 1, pos.getZ(), ((CrockContainerTileEntity)te).getOutputItem());
@@ -218,5 +227,12 @@ public class CrockPotBlock extends BlockContainer implements ITileEntityProvider
     @Override
     public boolean isOpaqueCube(IBlockState blockState) {
         return false;
+    }
+    
+    @SideOnly(Side.CLIENT)
+    @Override
+    public void randomDisplayTick(IBlockState stateIn, World worldIn, BlockPos pos, Random rand)
+    {
+    	//worldIn.playSound((double)((float)pos.getX() + 0.5F), (double)((float)pos.getY() + 0.5F), (double)((float)pos.getZ() + 0.5F), CPSounds.snd_cooking, SoundCategory.BLOCKS, 1.0F + rand.nextFloat(), 1.0F, false);
     }
 }

@@ -4,6 +4,7 @@ import gruntpie224.crockpot.CrockPot;
 import gruntpie224.crockpot.tileentity.CrockContainerTileEntity;
 import gruntpie224.crockpot.util.CPMessage;
 import gruntpie224.crockpot.util.CPPacketHandler;
+import gruntpie224.crockpot.util.CPSounds;
 import io.netty.buffer.Unpooled;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -18,6 +19,7 @@ import net.minecraft.network.play.client.CPacketCustomPayload;
 import net.minecraft.network.play.client.CPacketUpdateSign;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 
 public class CrockPotGUIContainer extends GuiContainer{
@@ -65,7 +67,7 @@ public class CrockPotGUIContainer extends GuiContainer{
 	@Override
 	public void onGuiClosed()
 	{
-
+		mc.world.playSound(crock_te.getPos(), CPSounds.snd_pot_close, SoundCategory.BLOCKS, 1.0f, 1.0f, false);
 	}
 	
 	@Override

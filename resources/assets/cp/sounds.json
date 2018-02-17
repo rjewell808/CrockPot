@@ -1,0 +1,22 @@
+{
+  "pot_open": {
+    "category": "block",
+    "subtitle": "cp.subtitle.openPot",
+    "sounds": [ "cp:pot_open" ]
+  },
+  "pot_close": {
+    "category": "block",
+    "subtitle": "cp.subtitle.closePot",
+    "sounds": [ "cp:pot_close" ]
+  },
+  "cooking": {
+    "category": "block",
+    "subtitle": "cp.subtitle.cooking",
+    "sounds": [ "cp:cooking" ]
+  },
+  "cooking_done": {
+    "category": "block",
+    "subtitle": "cp.subtitle.cookingDone",
+    "sounds": [ "cp:cooking_done" ]
+  }
+}

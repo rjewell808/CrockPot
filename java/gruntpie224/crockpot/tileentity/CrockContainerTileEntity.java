@@ -6,6 +6,7 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import gruntpie224.crockpot.blocks.CrockPotBlock;
+import gruntpie224.crockpot.util.CPSounds;
 import net.minecraft.block.BlockFurnace;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -24,6 +25,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.relauncher.Side;
@@ -247,6 +249,7 @@ public class CrockContainerTileEntity extends TileEntity implements ITickable, I
                     this.totalCookTime = this.getCookTime(this.crockItemStacks.get(0));
                     this.smeltItem();
                     this.setCooking(false);
+                    this.world.playSound(null, pos, CPSounds.snd_cooking_done, SoundCategory.BLOCKS, 1.0f, 1.0f);
                     this.output_item = new ItemStack(Items.APPLE);
                     CrockPotBlock.setState(2, this.world, pos);
                     flag1 = true;

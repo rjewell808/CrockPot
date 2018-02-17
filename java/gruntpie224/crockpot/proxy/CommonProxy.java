@@ -8,9 +8,12 @@ import gruntpie224.crockpot.tileentity.CrockContainerTileEntity;
 import gruntpie224.crockpot.util.CPMessage;
 import gruntpie224.crockpot.util.CPMessage.MyMessageHandler;
 import gruntpie224.crockpot.util.CPPacketHandler;
+import gruntpie224.crockpot.util.CPSounds;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -26,7 +29,7 @@ import net.minecraftforge.fml.relauncher.Side;
 @Mod.EventBusSubscriber
 public class CommonProxy {
 	public void preInit(FMLPreInitializationEvent event){
-		
+		CPSounds.initSounds();
 	}
 	public void init(FMLInitializationEvent event){
 		NetworkRegistry.INSTANCE.registerGuiHandler(CrockPot.instance, new GuiProxy());
