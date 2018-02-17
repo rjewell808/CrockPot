@@ -2,6 +2,8 @@ package gruntpie224.crockpot.gui;
 
 import gruntpie224.crockpot.CrockPot;
 import gruntpie224.crockpot.tileentity.CrockContainerTileEntity;
+import gruntpie224.crockpot.util.CPMessage;
+import gruntpie224.crockpot.util.CPPacketHandler;
 import io.netty.buffer.Unpooled;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -16,6 +18,7 @@ import net.minecraft.network.play.client.CPacketCustomPayload;
 import net.minecraft.network.play.client.CPacketUpdateSign;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 
 public class CrockPotGUIContainer extends GuiContainer{
 	public static final int WIDTH = 180;
@@ -71,11 +74,7 @@ public class CrockPotGUIContainer extends GuiContainer{
 		if(b.id == 1)
 		{
 			crock_te.setCooking(true);
-			String s = "CP|CrockPot";
-            PacketBuffer packetbuffer = new PacketBuffer(Unpooled.buffer());
-            packetbuffer.writeBoolean(true);
-            this.mc.getConnection().sendPacket(new CPacketCustomPayload("CP|CrockPot", packetbuffer));
-            this.mc.player.connection.sendPacket(new CPacketCloseWindow(this.mc.player.openContainer.windowId));
+			CPPacketHandler.INSTANCE.sendToServer(new CPMessage(true, crock_te.getPos()));
             this.mc.displayGuiScreen((GuiScreen)null);
 		}
 	}

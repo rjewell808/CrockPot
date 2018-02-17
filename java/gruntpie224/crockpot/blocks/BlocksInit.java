@@ -13,9 +13,13 @@ public class BlocksInit {
 	@GameRegistry.ObjectHolder("cp:crockpot_cooking")
 	public static CrockPotBlock crockpot_cooking;
 	
+	@GameRegistry.ObjectHolder("cp:crockpot_finished")
+	public static CrockPotBlock crockpot_finished;
+	
 	public static void initBlocks(){
-		crockpot = new CrockPotBlock(false);
-		crockpot_cooking = new CrockPotBlock(true);
+		crockpot = new CrockPotBlock(0);
+		crockpot_cooking = new CrockPotBlock(1);
+		crockpot_finished = new CrockPotBlock(2);
 	}
 	
 	@SideOnly(Side.CLIENT)
@@ -23,5 +27,6 @@ public class BlocksInit {
 	{
 		crockpot.initModel();
 		crockpot_cooking.initModel();
+		crockpot_finished.initModel();
 	}
 }

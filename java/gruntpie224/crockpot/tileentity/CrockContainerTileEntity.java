@@ -1,6 +1,7 @@
 package gruntpie224.crockpot.tileentity;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.annotation.Nullable;
 
@@ -22,6 +23,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.relauncher.Side;
@@ -32,13 +34,14 @@ import net.minecraftforge.items.ItemStackHandler;
 public class CrockContainerTileEntity extends TileEntity implements ITickable, ISidedInventory{
 	public static final int SIZE = 4;
 	private int cookTime;
-    private int totalCookTime;
+    private int totalCookTime = this.getCookTime(null);
     private int crockBurnTime;
-    private boolean isCooking = true;
+    private boolean isCooking = false;
 	
 	/** The ItemStacks that hold the items currently being used in the CrockPot */
     private NonNullList<ItemStack> crockItemStacks = NonNullList.<ItemStack>withSize(SIZE, ItemStack.EMPTY);
     
+    private ItemStack output_item;
 	
 	private ItemStackHandler itemStackHandler = new ItemStackHandler(SIZE){
 		@Override
@@ -53,7 +56,19 @@ public class CrockContainerTileEntity extends TileEntity implements ITickable, I
 	{
 		super.readFromNBT(compound);
 		this.crockItemStacks = NonNullList.<ItemStack>withSize(SIZE, ItemStack.EMPTY);
+		this.crockBurnTime = compound.getInteger("BurnTime");
+		this.cookTime = compound.getInteger("CookTime");
+		this.isCooking = compound.getBoolean("isCooking");
         ItemStackHelper.loadAllItems(compound, this.crockItemStacks);
+        if (compound.hasKey("Item", 8))
+        {
+            this.output_item = new ItemStack(Item.getByNameOrId(compound.getString("Item")));
+        }
+        else
+        {
+            this.output_item = new ItemStack(Item.getItemById(compound.getInteger("Item")));
+        }
+        
 		if(compound.hasKey("items"))
 			itemStackHandler.deserializeNBT((NBTTagCompound) compound.getTag("items"));
 	}
@@ -63,7 +78,13 @@ public class CrockContainerTileEntity extends TileEntity implements ITickable, I
 	{
 		super.writeToNBT(compound);
 		compound.setTag("items", itemStackHandler.serializeNBT());
+		compound.setInteger("BurnTime", (short)crockBurnTime);
+		compound.setInteger("CookTime", (short)cookTime);
+		compound.setBoolean("isCooking", isCooking);
+		ResourceLocation resourcelocation = Item.REGISTRY.getNameForObject(this.output_item.getItem());
+        compound.setString("Item", resourcelocation == null ? "" : resourcelocation.toString());
 		ItemStackHelper.saveAllItems(compound, this.crockItemStacks);
+
 		return compound;
 	}
 
@@ -173,9 +194,22 @@ public class CrockContainerTileEntity extends TileEntity implements ITickable, I
     	this.isCooking = isCooking;
     }
     
+    public boolean isCooking()
+    {
+    	return isCooking;
+    }
+    
     public boolean isBurning()
     {
         return crockBurnTime > 0;
+    }
+    
+    public ItemStack getOutputItem()
+    {
+    	ItemStack temp = output_item;
+    	output_item = null;
+    	
+    	return temp;
     }
 
     @SideOnly(Side.CLIENT)
@@ -193,7 +227,7 @@ public class CrockContainerTileEntity extends TileEntity implements ITickable, I
 
         if (!this.world.isRemote)
         {
-            if (!this.isBurning() && this.canSmelt())
+            if (!this.isBurning() && this.canSmelt() && this.isCooking())
             {
                 this.crockBurnTime = 100;
 
@@ -203,7 +237,7 @@ public class CrockContainerTileEntity extends TileEntity implements ITickable, I
                 }
             }
 
-            if (this.isBurning() && this.canSmelt())
+            if (this.isBurning() && this.canSmelt() && this.isCooking())
             {
                 ++this.cookTime;
 
@@ -212,10 +246,13 @@ public class CrockContainerTileEntity extends TileEntity implements ITickable, I
                     this.cookTime = 0;
                     this.totalCookTime = this.getCookTime(this.crockItemStacks.get(0));
                     this.smeltItem();
+                    this.setCooking(false);
+                    this.output_item = new ItemStack(Items.APPLE);
+                    CrockPotBlock.setState(2, this.world, pos);
                     flag1 = true;
                 }
             }
-            else
+            else if(output_item == null)
             {
                 this.cookTime = 0;
                 this.crockBurnTime = 0;
@@ -224,7 +261,7 @@ public class CrockContainerTileEntity extends TileEntity implements ITickable, I
             if (flag != this.isBurning())
             {
                 flag1 = true;
-                CrockPotBlock.setState(this.isBurning(), this.world, this.pos);
+                CrockPotBlock.setState(this.isBurning() ? 1 : 0, this.world, this.pos);
             }
         }
 

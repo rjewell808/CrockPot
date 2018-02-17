@@ -14,6 +14,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
@@ -33,18 +34,21 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class CrockPotBlock extends BlockContainer implements ITileEntityProvider{
 	
 	public static final int GUI_ID = 1;
-	private final boolean isCooking;
+	private final int cooking_state;
 	public static final PropertyDirection FACING = BlockHorizontal.FACING;
 	private static boolean keepInventory;
 	
-	public CrockPotBlock(boolean isCooking)
+	public CrockPotBlock(int cooking_state)
 	{
 		super(Material.ANVIL);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
-		setUnlocalizedName(CrockPot.MODID + ".crockpot" + (isCooking ? "_cooking" : ""));
-		setRegistryName("crockpot" + (isCooking ? "_cooking" : ""));
+		
+		String name = "crockpot" + (cooking_state > 0 ? (cooking_state == 2 ? "_finished" : "_cooking") : "");
+		
+		setUnlocalizedName(CrockPot.MODID + "." + name);
+		setRegistryName(name);
 		setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
-		this.isCooking = isCooking;
+		this.cooking_state = cooking_state;
 	}
 	
 	@SideOnly(Side.CLIENT)
@@ -69,8 +73,13 @@ public class CrockPotBlock extends BlockContainer implements ITileEntityProvider
 		if(!(te instanceof CrockContainerTileEntity))
 			return false;
 		
-		if(!this.isCooking)
+		if(cooking_state == 0)
 			playerIn.openGui(CrockPot.instance, GUI_ID, worldIn, pos.getX(), pos.getY(), pos.getZ());
+		else if(cooking_state == 2)
+		{
+			EntityItem item = new EntityItem(worldIn, pos.getX(), pos.getY() + 1, pos.getZ(), ((CrockContainerTileEntity)te).getOutputItem());
+			worldIn.spawnEntity(item);
+		}
 		
 		return true;
 	}
@@ -118,13 +127,19 @@ public class CrockPotBlock extends BlockContainer implements ITileEntityProvider
         }
     }
     
-    public static void setState(boolean active, World worldIn, BlockPos pos)
+    public static void setState(int state, World worldIn, BlockPos pos)
     {
         IBlockState iblockstate = worldIn.getBlockState(pos);
         TileEntity tileentity = worldIn.getTileEntity(pos);
         keepInventory = true;
 
-        if (active)
+        if (state == 2)
+        {
+            worldIn.setBlockState(pos, BlocksInit.crockpot_finished.getDefaultState().withProperty(FACING, iblockstate.getValue(FACING)), 3);
+            worldIn.setBlockState(pos, BlocksInit.crockpot_finished.getDefaultState().withProperty(FACING, iblockstate.getValue(FACING)), 3);
+        }
+        else
+        if (state == 1)
         {
             worldIn.setBlockState(pos, BlocksInit.crockpot_cooking.getDefaultState().withProperty(FACING, iblockstate.getValue(FACING)), 3);
             worldIn.setBlockState(pos, BlocksInit.crockpot_cooking.getDefaultState().withProperty(FACING, iblockstate.getValue(FACING)), 3);

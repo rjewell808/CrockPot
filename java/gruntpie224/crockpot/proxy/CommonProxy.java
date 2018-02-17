@@ -5,6 +5,9 @@ import gruntpie224.crockpot.blocks.BlocksInit;
 import gruntpie224.crockpot.blocks.CrockPotBlock;
 import gruntpie224.crockpot.gui.GuiProxy;
 import gruntpie224.crockpot.tileentity.CrockContainerTileEntity;
+import gruntpie224.crockpot.util.CPMessage;
+import gruntpie224.crockpot.util.CPMessage.MyMessageHandler;
+import gruntpie224.crockpot.util.CPPacketHandler;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -18,6 +21,7 @@ import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
 
 @Mod.EventBusSubscriber
 public class CommonProxy {
@@ -26,6 +30,7 @@ public class CommonProxy {
 	}
 	public void init(FMLInitializationEvent event){
 		NetworkRegistry.INSTANCE.registerGuiHandler(CrockPot.instance, new GuiProxy());
+		CPPacketHandler.INSTANCE.registerMessage(MyMessageHandler.class, CPMessage.class, 0, Side.SERVER);
 	}
 	public void postInit(FMLPostInitializationEvent event){}
 	public void serverStarting(FMLServerStartingEvent event){}
@@ -38,6 +43,7 @@ public class CommonProxy {
 		
 		event.getRegistry().register(BlocksInit.crockpot);
 		event.getRegistry().register(BlocksInit.crockpot_cooking);
+		event.getRegistry().register(BlocksInit.crockpot_finished);
 		
 		GameRegistry.registerTileEntity(CrockContainerTileEntity.class, CrockPot.MODID + "_crockpotblock");
 	}
@@ -47,6 +53,7 @@ public class CommonProxy {
 	{
 		event.getRegistry().register(new ItemBlock(BlocksInit.crockpot).setRegistryName(BlocksInit.crockpot.getRegistryName()));
 		event.getRegistry().register(new ItemBlock(BlocksInit.crockpot_cooking).setRegistryName(BlocksInit.crockpot_cooking.getRegistryName()));
+		event.getRegistry().register(new ItemBlock(BlocksInit.crockpot_finished).setRegistryName(BlocksInit.crockpot_finished.getRegistryName()));
 		
 	}
 }
