@@ -9,6 +9,8 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.FurnaceRecipes;
+import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 
@@ -54,27 +56,33 @@ public class CrockPotContainer extends Container{
 		}
 	}
 	
+	
 	@Nullable
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer playerIn, int index)
 	{
-		ItemStack itemstack = null;
+		ItemStack itemstack = ItemStack.EMPTY;
 		Slot slot = this.inventorySlots.get(index);
 		
+		System.out.print("Slot " + index + " -> ");
 		if(slot != null && slot.getHasStack())
 		{
 			ItemStack itemstack1 = slot.getStack();
 			itemstack = itemstack1.copy();
 			
+			System.out.print("ItemStack " + itemstack1 + " -> ");
+			
 			if(index < CrockContainerTileEntity.SIZE)
 			{
+				System.out.print("TE Size " + CrockContainerTileEntity.SIZE + " -> ");
+				
 				if(!this.mergeItemStack(itemstack1, CrockContainerTileEntity.SIZE, this.inventorySlots.size(), true))
 				{
-					return null;
+					return ItemStack.EMPTY;
 				}
 				else if (!this.mergeItemStack(itemstack1, 0, CrockContainerTileEntity.SIZE, false))
 				{
-					return null;
+					return ItemStack.EMPTY;
 				}
 				
 				if(itemstack1.isEmpty())
@@ -82,9 +90,45 @@ public class CrockPotContainer extends Container{
 				else
 					slot.onSlotChanged();
 			}
-		}
-		return itemstack;
+			else if (index >= CrockContainerTileEntity.SIZE)
+			{
+                if (index >= 4 && index < 31)
+                {
+                    if (!this.mergeItemStack(itemstack1, 31, 39, false))
+                    {
+                        return ItemStack.EMPTY;
+                    }
+                }
+                else if (index >= 31 && index <= 39 && !this.mergeItemStack(itemstack1, 4, 31, false))
+                {
+                    return ItemStack.EMPTY;
+                }
+            }
+			else if (!this.mergeItemStack(itemstack1, 4, 39, false))
+            {
+                return ItemStack.EMPTY;
+            }
+
+            if (itemstack1.isEmpty())
+            {
+                slot.putStack(ItemStack.EMPTY);
+            }
+            else
+            {
+                slot.onSlotChanged();
+            }
+
+            if (itemstack1.getCount() == itemstack.getCount())
+            {
+                return ItemStack.EMPTY;
+            }
+
+            slot.onTake(playerIn, itemstack1);
+        }
+
+        return itemstack;
 	}
+	
 	
 	@Override
 	public boolean canInteractWith(EntityPlayer playerIn) {

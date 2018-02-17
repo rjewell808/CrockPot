@@ -41,7 +41,7 @@ public class CrockContainerTileEntity extends TileEntity implements ITickable, I
 	/** The ItemStacks that hold the items currently being used in the CrockPot */
     private NonNullList<ItemStack> crockItemStacks = NonNullList.<ItemStack>withSize(SIZE, ItemStack.EMPTY);
     
-    private ItemStack output_item;
+    private ItemStack output_item = ItemStack.EMPTY;
 	
 	private ItemStackHandler itemStackHandler = new ItemStackHandler(SIZE){
 		@Override
@@ -207,7 +207,7 @@ public class CrockContainerTileEntity extends TileEntity implements ITickable, I
     public ItemStack getOutputItem()
     {
     	ItemStack temp = output_item;
-    	output_item = null;
+    	output_item = ItemStack.EMPTY;
     	
     	return temp;
     }
@@ -252,7 +252,7 @@ public class CrockContainerTileEntity extends TileEntity implements ITickable, I
                     flag1 = true;
                 }
             }
-            else if(output_item == null)
+            else if(output_item == ItemStack.EMPTY)
             {
                 this.cookTime = 0;
                 this.crockBurnTime = 0;
