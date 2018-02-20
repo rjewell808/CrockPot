@@ -4,6 +4,7 @@ import gruntpie224.crockpot.CrockPot;
 import gruntpie224.crockpot.blocks.BlocksInit;
 import gruntpie224.crockpot.blocks.CrockPotBlock;
 import gruntpie224.crockpot.gui.GuiProxy;
+import gruntpie224.crockpot.items.ItemsInit;
 import gruntpie224.crockpot.tileentity.CrockContainerTileEntity;
 import gruntpie224.crockpot.util.CPMessage;
 import gruntpie224.crockpot.util.CPMessage.MyMessageHandler;
@@ -54,9 +55,12 @@ public class CommonProxy {
 	@SubscribeEvent
 	public static void registerItems(RegistryEvent.Register<Item> event)
 	{
+		ItemsInit.initItems();
+		
 		event.getRegistry().register(new ItemBlock(BlocksInit.crockpot).setRegistryName(BlocksInit.crockpot.getRegistryName()));
 		event.getRegistry().register(new ItemBlock(BlocksInit.crockpot_cooking).setRegistryName(BlocksInit.crockpot_cooking.getRegistryName()));
 		event.getRegistry().register(new ItemBlock(BlocksInit.crockpot_finished).setRegistryName(BlocksInit.crockpot_finished.getRegistryName()));
 		
+		event.getRegistry().register(ItemsInit.bacon_eggs);
 	}
 }

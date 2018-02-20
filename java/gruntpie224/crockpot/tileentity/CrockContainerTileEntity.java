@@ -40,6 +40,25 @@ public class CrockContainerTileEntity extends TileEntity implements ITickable, I
     private int crockBurnTime;
     private boolean isCooking = false;
 	
+    //0 - Meats
+    //1 - Monster Food
+    //2 - Fish
+    //3 - Eggs
+    //4 - Fruit
+    //5 - Vegetable
+    //6 - Sweeteners
+    
+    public Item[][] food = 
+    	{
+	    	{Items.BEEF, Items.CHICKEN, Items.RABBIT, Items.PORKCHOP, Items.MUTTON,Items.COOKED_BEEF, Items.COOKED_CHICKEN, Items.COOKED_RABBIT,Items.COOKED_PORKCHOP, Items.COOKED_MUTTON},
+			{Items.ROTTEN_FLESH, Items.SPIDER_EYE, Items.FERMENTED_SPIDER_EYE},
+			{Items.FISH, Items.COOKED_FISH},
+			{Items.EGG},
+			{Items.APPLE, Items.MELON},
+			{Items.BEETROOT, Items.CARROT, Items.POTATO, Items.BAKED_POTATO},
+			{Items.COOKIE, Items.CAKE, Items.PUMPKIN_PIE}
+		};
+    
 	/** The ItemStacks that hold the items currently being used in the CrockPot */
     private NonNullList<ItemStack> crockItemStacks = NonNullList.<ItemStack>withSize(SIZE, ItemStack.EMPTY);
     
@@ -329,6 +348,18 @@ public class CrockContainerTileEntity extends TileEntity implements ITickable, I
 	/**
      * Returns true if the CrockPot can smelt an item, i.e. has a source item, destination stack isn't full, etc.
      */
+    private boolean food_contains(ItemStack item)
+    {
+    	for(int k = 0; k < food.length; k++)
+	    	for(int i = 0; i < food[k].length;i++)
+	    	{
+	    		if(new ItemStack(item.getItem()).isItemEqual(new ItemStack(food[k][i])))
+	    			return true;
+	    	}
+    	
+    	return false;
+    }
+    
     public boolean canSmelt()
     {
         if (((ItemStack)this.crockItemStacks.get(0)).isEmpty() || ((ItemStack)this.crockItemStacks.get(1)).isEmpty() || ((ItemStack)this.crockItemStacks.get(2)).isEmpty() || ((ItemStack)this.crockItemStacks.get(3)).isEmpty())
@@ -337,7 +368,14 @@ public class CrockContainerTileEntity extends TileEntity implements ITickable, I
         }
         else
         {
-            /*
+            for(int i = 0; i < SIZE; i++)
+            {
+        		if(!food_contains(((ItemStack)this.crockItemStacks.get(i))))
+        		{
+        			return false;
+        		}
+            }
+        	/*
         	ItemStack itemstack = FurnaceRecipes.instance().getSmeltingResult(this.crockItemStacks.get(0));
 
             if (itemstack.isEmpty())

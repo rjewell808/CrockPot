@@ -1,6 +1,7 @@
 package gruntpie224.crockpot.proxy;
 
 import gruntpie224.crockpot.blocks.BlocksInit;
+import gruntpie224.crockpot.items.ItemsInit;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -43,5 +44,6 @@ public class ClientProxy extends CommonProxy{
 	public static void registerModels(ModelRegistryEvent event)
 	{
 		BlocksInit.initModels();
+		ItemsInit.initModels();
 	}
 }
