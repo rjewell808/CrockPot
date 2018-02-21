@@ -1,11 +1,13 @@
 package gruntpie224.crockpot.tileentity;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Nullable;
 
 import gruntpie224.crockpot.blocks.CrockPotBlock;
+import gruntpie224.crockpot.items.CrockIngredient;
 import gruntpie224.crockpot.util.CPSounds;
 import net.minecraft.block.BlockFurnace;
 import net.minecraft.entity.player.EntityPlayer;
@@ -48,16 +50,8 @@ public class CrockContainerTileEntity extends TileEntity implements ITickable, I
     //5 - Vegetable
     //6 - Sweeteners
     
-    public Item[][] food = 
-    	{
-	    	{Items.BEEF, Items.CHICKEN, Items.RABBIT, Items.PORKCHOP, Items.MUTTON,Items.COOKED_BEEF, Items.COOKED_CHICKEN, Items.COOKED_RABBIT,Items.COOKED_PORKCHOP, Items.COOKED_MUTTON},
-			{Items.ROTTEN_FLESH, Items.SPIDER_EYE, Items.FERMENTED_SPIDER_EYE},
-			{Items.FISH, Items.COOKED_FISH},
-			{Items.EGG},
-			{Items.APPLE, Items.MELON},
-			{Items.BEETROOT, Items.CARROT, Items.POTATO, Items.BAKED_POTATO},
-			{Items.COOKIE, Items.CAKE, Items.PUMPKIN_PIE}
-		};
+    public static ArrayList<CrockIngredient> crock_foods = new ArrayList<CrockIngredient>();
+    float[] food_values = new float[7];
     
 	/** The ItemStacks that hold the items currently being used in the CrockPot */
     private NonNullList<ItemStack> crockItemStacks = NonNullList.<ItemStack>withSize(SIZE, ItemStack.EMPTY);
@@ -211,7 +205,6 @@ public class CrockContainerTileEntity extends TileEntity implements ITickable, I
      */
     public void setCooking(boolean isCooking)
     {
-    	System.out.println("Cooking: " + isCooking);
     	this.isCooking = isCooking;
     }
     
@@ -223,6 +216,36 @@ public class CrockContainerTileEntity extends TileEntity implements ITickable, I
     public boolean isBurning()
     {
         return crockBurnTime > 0;
+    }
+    
+    public void refreshTotalFoodValue()
+    {
+    	for(int j = 0; j < food_values.length; j++)
+		{
+			food_values[j] = 0;
+		}
+    	
+    	for(int k = 0; k < crock_foods.size(); k++)
+    	{
+    		System.out.println((crock_foods.get(k).toString()));
+    		
+    		for(int i = 0; i < SIZE; i++)
+    		{
+    			if((crock_foods.get(k)).isEqualToItem(((ItemStack)this.crockItemStacks.get(i)).getItem()))
+    			{
+    				for(int j = 0; j < food_values.length; j++)
+    				{
+    					food_values[j] += crock_foods.get(k).getValue(j);
+    				}
+    			}
+    		}
+    	}
+    	
+    	for(int j = 0; j < food_values.length; j++)
+		{
+			System.out.println(j + ": " + food_values[j]);
+		}
+    			
     }
     
     public ItemStack getOutputItem()
@@ -264,7 +287,8 @@ public class CrockContainerTileEntity extends TileEntity implements ITickable, I
 
                 if (this.cookTime >= this.totalCookTime)
                 {
-                    this.cookTime = 0;
+                	this.refreshTotalFoodValue();
+                	this.cookTime = 0;
                     this.totalCookTime = this.getCookTime(this.crockItemStacks.get(0));
                     this.smeltItem();
                     this.setCooking(false);
@@ -348,13 +372,12 @@ public class CrockContainerTileEntity extends TileEntity implements ITickable, I
 	/**
      * Returns true if the CrockPot can smelt an item, i.e. has a source item, destination stack isn't full, etc.
      */
-    private boolean food_contains(ItemStack item)
+    private boolean food_contains(Item item)
     {
-    	for(int k = 0; k < food.length; k++)
-	    	for(int i = 0; i < food[k].length;i++)
+    	for(int k = 0; k < crock_foods.size(); k++)
+	    	if((crock_foods.get(k)).isEqualToItem(item))
 	    	{
-	    		if(new ItemStack(item.getItem()).isItemEqual(new ItemStack(food[k][i])))
-	    			return true;
+	    		return true;
 	    	}
     	
     	return false;
@@ -370,7 +393,7 @@ public class CrockContainerTileEntity extends TileEntity implements ITickable, I
         {
             for(int i = 0; i < SIZE; i++)
             {
-        		if(!food_contains(((ItemStack)this.crockItemStacks.get(i))))
+        		if(!food_contains((((ItemStack)this.crockItemStacks.get(i)).getItem())))
         		{
         			return false;
         		}

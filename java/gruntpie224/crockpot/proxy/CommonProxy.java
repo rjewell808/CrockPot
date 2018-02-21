@@ -56,6 +56,7 @@ public class CommonProxy {
 	public static void registerItems(RegistryEvent.Register<Item> event)
 	{
 		ItemsInit.initItems();
+		ItemsInit.initFoodValues();
 		
 		event.getRegistry().register(new ItemBlock(BlocksInit.crockpot).setRegistryName(BlocksInit.crockpot.getRegistryName()));
 		event.getRegistry().register(new ItemBlock(BlocksInit.crockpot_cooking).setRegistryName(BlocksInit.crockpot_cooking.getRegistryName()));
