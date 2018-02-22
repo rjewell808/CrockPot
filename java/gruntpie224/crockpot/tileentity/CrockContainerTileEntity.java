@@ -49,9 +49,10 @@ public class CrockContainerTileEntity extends TileEntity implements ITickable, I
     //4 - Fruit
     //5 - Vegetable
     //6 - Sweeteners
+    //7 - Dairy
     
     public static ArrayList<CrockIngredient> crock_foods = new ArrayList<CrockIngredient>();
-    float[] food_values = new float[7];
+    float[] food_values = new float[8];
     
 	/** The ItemStacks that hold the items currently being used in the CrockPot */
     private NonNullList<ItemStack> crockItemStacks = NonNullList.<ItemStack>withSize(SIZE, ItemStack.EMPTY);

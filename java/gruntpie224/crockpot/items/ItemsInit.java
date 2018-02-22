@@ -21,12 +21,13 @@ public class ItemsInit {
 		bacon_eggs.initModel();
 	}
 	
-	static float[] stats = new float[7];
+	static float[] stats = new float[8];
 	
 	public static void initFoodValues()
 	{
-		//[0]Meat - [1]Monster - [2]Fish - [3]Eggs - [4]Fruit - [5]Vegetables - [6]Sweetners
+		//[0]meat - [1]monster - [2]fish - [3]egg - [4]fruit - [5]vegetable - [6]sweet - [7]dairy
 		
+		//Meats
 		CrockContainerTileEntity.crock_foods.add(new CrockIngredient(Items.BEEF, 0.5f, "meat"));
 		CrockContainerTileEntity.crock_foods.add(new CrockIngredient(Items.COOKED_BEEF, 1.0f, "meat"));
 		CrockContainerTileEntity.crock_foods.add(new CrockIngredient(Items.PORKCHOP, 0.5f, "meat"));
@@ -38,14 +39,32 @@ public class ItemsInit {
 		CrockContainerTileEntity.crock_foods.add(new CrockIngredient(Items.RABBIT, 0.5f, "meat"));
 		CrockContainerTileEntity.crock_foods.add(new CrockIngredient(Items.COOKED_RABBIT, 1.0f, "meat"));
 		
+		//Monster Foods
 		CrockContainerTileEntity.crock_foods.add(new CrockIngredient(Items.ROTTEN_FLESH, stats_n(1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f)));
 		CrockContainerTileEntity.crock_foods.add(new CrockIngredient(Items.SPIDER_EYE, 1.0f, "monster"));
 		CrockContainerTileEntity.crock_foods.add(new CrockIngredient(Items.FERMENTED_SPIDER_EYE, 1.0f, "monster"));
 		
+		//Fish
 		CrockContainerTileEntity.crock_foods.add(new CrockIngredient(Items.FISH, stats_n(0.5f, 0.0f, 0.5f, 0.0f, 0.0f, 0.0f, 0.0f)));
 		CrockContainerTileEntity.crock_foods.add(new CrockIngredient(Items.COOKED_FISH, stats_n(0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f)));
 		
+		//Eggs
 		CrockContainerTileEntity.crock_foods.add(new CrockIngredient(Items.EGG, 1.0f, "egg"));
+		
+		//Fruits
+		CrockContainerTileEntity.crock_foods.add(new CrockIngredient(Items.APPLE, 0.5f, "fruit"));
+		CrockContainerTileEntity.crock_foods.add(new CrockIngredient(Items.GOLDEN_APPLE, 1.0f, "fruit"));
+		CrockContainerTileEntity.crock_foods.add(new CrockIngredient(Items.MELON, 0.5f, "fruit"));
+		
+		//Vegetables
+		CrockContainerTileEntity.crock_foods.add(new CrockIngredient(Items.CARROT, 0.5f, "vegetable"));
+		
+		//Sweeteners
+		CrockContainerTileEntity.crock_foods.add(new CrockIngredient(Items.SUGAR, 0.5f, "sweet"));
+		CrockContainerTileEntity.crock_foods.add(new CrockIngredient(Items.COOKIE, 1.0f, "sweet"));
+		
+		//Dairy
+		CrockContainerTileEntity.crock_foods.add(new CrockIngredient(Items.MILK_BUCKET, 1.0f, "dairy"));
 	}
 	
 	private static float[] stats_n(float...values)

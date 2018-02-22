@@ -6,7 +6,7 @@ import net.minecraft.item.ItemStack;
 public class CrockIngredient {
 	
 	public Item food;
-	private float[] value = new float[7];
+	private float[] value = new float[8];
 	
 	public CrockIngredient(Item food, float[] new_val)
 	{
@@ -56,6 +56,8 @@ public class CrockIngredient {
 			case "egg": return 3;
 			case "fruit": return 4;
 			case "vegetable": return 5;
+			case "sweet": return 6;
+			case "dairy": return 7;
 			default: return -1;
 		}
 	}
