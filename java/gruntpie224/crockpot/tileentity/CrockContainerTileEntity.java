@@ -9,6 +9,7 @@ import javax.annotation.Nullable;
 import gruntpie224.crockpot.blocks.CrockPotBlock;
 import gruntpie224.crockpot.items.CrockIngredient;
 import gruntpie224.crockpot.util.CPSounds;
+import gruntpie224.crockpot.util.CrockPotRecipes;
 import net.minecraft.block.BlockFurnace;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -288,13 +289,11 @@ public class CrockContainerTileEntity extends TileEntity implements ITickable, I
 
                 if (this.cookTime >= this.totalCookTime)
                 {
-                	this.refreshTotalFoodValue();
                 	this.cookTime = 0;
                     this.totalCookTime = this.getCookTime(this.crockItemStacks.get(0));
                     this.smeltItem();
                     this.setCooking(false);
                     this.world.playSound(null, pos, CPSounds.snd_cooking_done, SoundCategory.BLOCKS, 1.0f, 1.0f);
-                    this.output_item = new ItemStack(Items.APPLE);
                     CrockPotBlock.setState(2, this.world, pos);
                     flag1 = true;
                 }
@@ -317,58 +316,6 @@ public class CrockContainerTileEntity extends TileEntity implements ITickable, I
             this.markDirty();
         }
     }
-    /*
-    @Override
-    public void update()
-    {
-    	boolean flag = this.isBurning();
-        boolean flag1 = false;
-
-        if (!this.world.isRemote)
-        {
-            ItemStack itemstack = this.crockItemStacks.get(1);
-            
-            if (this.isBurning())
-            {
-                if (this.canSmelt())
-                {
-                    ++this.cookTime;
-                    
-                    if(cookTime % 10 == 0)
-                    	System.out.println("Cooking " + cookTime + " : " + this.totalCookTime);
-                    
-                    if (this.cookTime >= this.totalCookTime)
-                    {
-                        this.cookTime = 0;
-                        this.totalCookTime = this.getCookTime(this.crockItemStacks.get(0));
-                        this.smeltItem();
-                        this.setCooking(false);
-                        flag1 = true;
-                    }
-                }
-                else
-                {
-                    this.cookTime = 0;
-                }
-            }
-            else if (!this.isBurning() && this.cookTime > 0)
-            {
-                this.cookTime = MathHelper.clamp(this.cookTime - 2, 0, this.totalCookTime);
-            }
-
-            if (flag != this.isBurning())
-            {
-                flag1 = true;
-                CrockPotBlock.setState(this.isBurning(), this.world, this.pos);
-            }
-        }
-
-        if (flag1)
-        {
-            this.markDirty();
-        }
-    }
-    /*
     
 	/**
      * Returns true if the CrockPot can smelt an item, i.e. has a source item, destination stack isn't full, etc.
@@ -399,13 +346,16 @@ public class CrockContainerTileEntity extends TileEntity implements ITickable, I
         			return false;
         		}
             }
-        	/*
-        	ItemStack itemstack = FurnaceRecipes.instance().getSmeltingResult(this.crockItemStacks.get(0));
-
-            if (itemstack.isEmpty())
+        	
+            this.refreshTotalFoodValue();
+        	ItemStack result = (new CrockPotRecipes(crockItemStacks, food_values)).getRecipeResult();
+        	
+            if (result.isEmpty())
             {
                 return false;
             }
+            this.output_item = result;
+            /*
             else
             {
                 ItemStack itemstack1 = this.crockItemStacks.get(2);

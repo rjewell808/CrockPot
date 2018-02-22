@@ -1,24 +1,51 @@
 package gruntpie224.crockpot.items;
 
+import java.util.ArrayList;
+
 import gruntpie224.crockpot.tileentity.CrockContainerTileEntity;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemsInit {
+	private static ArrayList<CrockFood> all_items = new ArrayList<CrockFood>();
+	
 	@GameRegistry.ObjectHolder("cp:bacon_eggs")
 	public static CrockFood bacon_eggs;
+	
+	@GameRegistry.ObjectHolder("cp:fish_sticks")
+	public static CrockFood fish_sticks;
+	
+	@GameRegistry.ObjectHolder("cp:ice_cream")
+	public static CrockFood ice_cream;
 	
 	public static void initItems()
 	{
 		bacon_eggs = new CrockFood("bacon_eggs");
+		all_items.add(bacon_eggs);
+		
+		fish_sticks = new CrockFood("fish_sticks");
+		all_items.add(fish_sticks);
+		
+		ice_cream = new CrockFood("ice_cream");
+		all_items.add(ice_cream);
 	}
 	
 	@SideOnly(Side.CLIENT)
 	public static void initModels()
 	{
-		bacon_eggs.initModel();
+		for(CrockFood item : all_items)
+			item.initModel();
+	}
+	
+	public static void registerItems(RegistryEvent.Register<Item> event)
+	{
+		for(CrockFood item : all_items)
+			event.getRegistry().register(item);
 	}
 	
 	static float[] stats = new float[8];
@@ -50,6 +77,7 @@ public class ItemsInit {
 		
 		//Eggs
 		CrockContainerTileEntity.crock_foods.add(new CrockIngredient(Items.EGG, 1.0f, "egg"));
+		CrockContainerTileEntity.crock_foods.add(new CrockIngredient(Item.getItemFromBlock(Blocks.DRAGON_EGG), 4.0f, "egg"));
 		
 		//Fruits
 		CrockContainerTileEntity.crock_foods.add(new CrockIngredient(Items.APPLE, 0.5f, "fruit"));
@@ -58,6 +86,9 @@ public class ItemsInit {
 		
 		//Vegetables
 		CrockContainerTileEntity.crock_foods.add(new CrockIngredient(Items.CARROT, 0.5f, "vegetable"));
+		CrockContainerTileEntity.crock_foods.add(new CrockIngredient(Items.POTATO, 0.5f, "vegetable"));
+		CrockContainerTileEntity.crock_foods.add(new CrockIngredient(Items.BAKED_POTATO, 1.0f, "vegetable"));
+		CrockContainerTileEntity.crock_foods.add(new CrockIngredient(Items.BEETROOT, 0.5f, "vegetable"));
 		
 		//Sweeteners
 		CrockContainerTileEntity.crock_foods.add(new CrockIngredient(Items.SUGAR, 0.5f, "sweet"));
@@ -65,6 +96,10 @@ public class ItemsInit {
 		
 		//Dairy
 		CrockContainerTileEntity.crock_foods.add(new CrockIngredient(Items.MILK_BUCKET, 1.0f, "dairy"));
+		
+		//Misc
+		CrockContainerTileEntity.crock_foods.add(new CrockIngredient(Items.STICK));
+		CrockContainerTileEntity.crock_foods.add(new CrockIngredient(Item.getItemFromBlock(Blocks.ICE)));
 	}
 	
 	private static float[] stats_n(float...values)

@@ -57,11 +57,10 @@ public class CommonProxy {
 	{
 		ItemsInit.initItems();
 		ItemsInit.initFoodValues();
+		ItemsInit.registerItems(event);
 		
 		event.getRegistry().register(new ItemBlock(BlocksInit.crockpot).setRegistryName(BlocksInit.crockpot.getRegistryName()));
 		event.getRegistry().register(new ItemBlock(BlocksInit.crockpot_cooking).setRegistryName(BlocksInit.crockpot_cooking.getRegistryName()));
 		event.getRegistry().register(new ItemBlock(BlocksInit.crockpot_finished).setRegistryName(BlocksInit.crockpot_finished.getRegistryName()));
-		
-		event.getRegistry().register(ItemsInit.bacon_eggs);
 	}
 }

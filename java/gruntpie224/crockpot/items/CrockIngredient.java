@@ -26,6 +26,11 @@ public class CrockIngredient {
 		value[getCategory(cat)] = new_val;
 	}
 	
+	public CrockIngredient(Item food)
+	{
+		this.food = food;
+	}
+	
 	public boolean isEqualToItem(Item item)
 	{
 		return (new ItemStack(food)).isItemEqual(new ItemStack(item));

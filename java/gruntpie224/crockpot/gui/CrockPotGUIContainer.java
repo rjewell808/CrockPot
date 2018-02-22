@@ -55,7 +55,7 @@ public class CrockPotGUIContainer extends GuiContainer{
 			((GuiButton)(buttonList.get(buttonList.indexOf(cook_btn)))).enabled = true;
 		else
 			((GuiButton)(buttonList.get(buttonList.indexOf(cook_btn)))).enabled = false;
-			
+				
     }
 	
 	@Override
