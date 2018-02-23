@@ -27,6 +27,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.Mirror;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.SoundCategory;
@@ -52,7 +53,10 @@ public class CrockPotBlock extends BlockContainer implements ITileEntityProvider
 		
 		setUnlocalizedName(CrockPot.MODID + "." + name);
 		setRegistryName(name);
-		setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
+		
+		if(cooking_state == 0)
+			setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
+		
 		this.cooking_state = cooking_state;
 	}
 	
@@ -233,6 +237,13 @@ public class CrockPotBlock extends BlockContainer implements ITileEntityProvider
     @Override
     public void randomDisplayTick(IBlockState stateIn, World worldIn, BlockPos pos, Random rand)
     {
-    	//worldIn.playSound((double)((float)pos.getX() + 0.5F), (double)((float)pos.getY() + 0.5F), (double)((float)pos.getZ() + 0.5F), CPSounds.snd_cooking, SoundCategory.BLOCKS, 1.0F + rand.nextFloat(), 1.0F, false);
+    	if(this.cooking_state == 1)
+    	{  	
+	    	double d0 = (double)pos.getX() + 1.0D;
+	        double d1 = (double)pos.getY() + (0.5D + rand.nextDouble() * 6.0D / 16.0D);
+	        double d2 = (double)pos.getZ() + 0.5D;
+	    	
+	        worldIn.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0 - 0.52D, d1, d2, 0.0D, 0.05D, 0.0D);
+    	}
     }
 }
