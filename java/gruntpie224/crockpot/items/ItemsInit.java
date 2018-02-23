@@ -6,6 +6,8 @@ import gruntpie224.crockpot.tileentity.CrockContainerTileEntity;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
@@ -23,15 +25,18 @@ public class ItemsInit {
 	@GameRegistry.ObjectHolder("cp:ice_cream")
 	public static CrockFood ice_cream;
 	
+	//Saturation Reference
+	//Rotten Flesh - 0.8 | Bread - 6.0 | Cooked Steak - 12.8
+	
 	public static void initItems()
 	{
-		bacon_eggs = new CrockFood("bacon_eggs");
+		bacon_eggs = new CrockFood("bacon_eggs", 10, 12.0f, false);
 		all_items.add(bacon_eggs);
 		
-		fish_sticks = new CrockFood("fish_sticks");
+		fish_sticks = new CrockFood("fish_sticks", 4, 7.0f, false).setPotionEffect(new PotionEffect(Potion.getPotionById(6), 1, 1), 1.0f);
 		all_items.add(fish_sticks);
 		
-		ice_cream = new CrockFood("ice_cream");
+		ice_cream = new CrockFood("ice_cream", 5, 8.0f, false);
 		all_items.add(ice_cream);
 	}
 	
