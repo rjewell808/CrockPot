@@ -395,8 +395,7 @@ public class CrockContainerTileEntity extends TileEntity implements ITickable, I
 
 	@Override
 	public int getSizeInventory() {
-		// TODO Auto-generated method stub
-		return 0;
+		return SIZE;
 	}
 
 	@Override

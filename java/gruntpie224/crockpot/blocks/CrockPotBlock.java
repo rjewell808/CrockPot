@@ -21,9 +21,11 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -46,7 +48,8 @@ public class CrockPotBlock extends BlockContainer implements ITileEntityProvider
 	
 	public CrockPotBlock(int cooking_state)
 	{
-		super(Material.ANVIL);
+		super(Material.ROCK);
+		this.setHardness(2.8F);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
 		
 		String name = "crockpot" + (cooking_state > 0 ? (cooking_state == 2 ? "_finished" : "_cooking") : "");
@@ -70,6 +73,24 @@ public class CrockPotBlock extends BlockContainer implements ITileEntityProvider
 	{
 		return new CrockContainerTileEntity();
 	}
+	
+	@Override
+    public void breakBlock(World worldIn, BlockPos pos, IBlockState state)
+    {
+		if (!keepInventory)
+        {
+            TileEntity tileentity = worldIn.getTileEntity(pos);
+
+            if (tileentity instanceof CrockContainerTileEntity)
+            {
+                System.out.println("Drop Items");
+            	InventoryHelper.dropInventoryItems(worldIn, pos, (CrockContainerTileEntity)tileentity);
+                worldIn.updateComparatorOutputLevel(pos, this);
+            }
+        }
+
+        super.breakBlock(worldIn, pos, state);
+    }
 	
 	@Override
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
@@ -231,6 +252,12 @@ public class CrockPotBlock extends BlockContainer implements ITileEntityProvider
     @Override
     public boolean isOpaqueCube(IBlockState blockState) {
         return false;
+    }
+    
+    @Override
+    public Item getItemDropped(IBlockState state, Random rand, int fortune)
+    {
+        return Item.getItemFromBlock(BlocksInit.crockpot);
     }
     
     @SideOnly(Side.CLIENT)
