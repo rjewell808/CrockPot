@@ -58,7 +58,7 @@ public class CrockPotBlock extends BlockContainer implements ITileEntityProvider
 		setRegistryName(name);
 		
 		if(cooking_state == 0)
-			setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
+			setCreativeTab(CreativeTabs.DECORATIONS);
 		
 		this.cooking_state = cooking_state;
 	}

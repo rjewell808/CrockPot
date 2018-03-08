@@ -28,6 +28,8 @@ public class ItemsInit {
 	//Saturation Reference
 	//Rotten Flesh - 0.8 | Bread - 6.0 | Cooked Steak - 12.8
 	
+	//Potion Effect for healing
+	//Starts at 2 hearts, 1 amplify gives 4 hearts
 	public static void initItems()
 	{
 		bacon_eggs = new CrockFood("bacon_eggs", 10, 12.0f, false);
