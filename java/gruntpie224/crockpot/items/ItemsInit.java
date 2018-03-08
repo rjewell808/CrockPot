@@ -25,6 +25,21 @@ public class ItemsInit {
 	@GameRegistry.ObjectHolder("cp:ice_cream")
 	public static CrockFood ice_cream;
 	
+	@GameRegistry.ObjectHolder("cp:melonsicle")
+	public static CrockFood melonsicle;
+	
+	@GameRegistry.ObjectHolder("cp:pumpkin_cookie")
+	public static CrockFood pumpkin_cookie;
+	
+	@GameRegistry.ObjectHolder("cp:waffles")
+	public static CrockFood waffles;
+	
+	@GameRegistry.ObjectHolder("cp:monster_lasagna")
+	public static CrockFood monster_lasagna;
+	
+	@GameRegistry.ObjectHolder("cp:wet_goop")
+	public static CrockFood wet_goop;
+	
 	//Saturation Reference
 	//Rotten Flesh - 0.8 | Bread - 6.0 | Cooked Steak - 12.8
 	
@@ -40,6 +55,22 @@ public class ItemsInit {
 		
 		ice_cream = new CrockFood("ice_cream", 5, 8.0f, false);
 		all_items.add(ice_cream);
+		
+		melonsicle = new CrockFood("melonsicle", 4, 5.0f, false);
+		all_items.add(melonsicle);
+		
+		pumpkin_cookie = new CrockFood("pumpkin_cookie", 4, 7.0f, false);
+		all_items.add(pumpkin_cookie);
+		
+		waffles = new CrockFood("waffles", 4, 7.5f, false).setPotionEffect(new PotionEffect(Potion.getPotionById(6), 1, 2), 1.0f);
+		all_items.add(waffles);
+		
+		//Work on damaging feature
+		monster_lasagna = new CrockFood("monster_lasagna", 4, 6.0f, false).setPotionEffect(new PotionEffect(Potion.getPotionById(6), 1, -1), 1.0f);
+		all_items.add(monster_lasagna);
+		
+		wet_goop = new CrockFood("wet_goop", 0, 0, false);
+		all_items.add(wet_goop);
 	}
 	
 	@SideOnly(Side.CLIENT)
@@ -96,10 +127,13 @@ public class ItemsInit {
 		CrockContainerTileEntity.crock_foods.add(new CrockIngredient(Items.POTATO, 0.5f, "vegetable"));
 		CrockContainerTileEntity.crock_foods.add(new CrockIngredient(Items.BAKED_POTATO, 1.0f, "vegetable"));
 		CrockContainerTileEntity.crock_foods.add(new CrockIngredient(Items.BEETROOT, 0.5f, "vegetable"));
+		CrockContainerTileEntity.crock_foods.add(new CrockIngredient(Item.getItemFromBlock(Blocks.PUMPKIN), 1.0f, "vegetable"));
 		
 		//Sweeteners
 		CrockContainerTileEntity.crock_foods.add(new CrockIngredient(Items.SUGAR, 0.5f, "sweet"));
 		CrockContainerTileEntity.crock_foods.add(new CrockIngredient(Items.COOKIE, 1.0f, "sweet"));
+		CrockContainerTileEntity.crock_foods.add(new CrockIngredient(Items.PUMPKIN_PIE, stats_n(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f)));
+		
 		
 		//Dairy
 		CrockContainerTileEntity.crock_foods.add(new CrockIngredient(Items.MILK_BUCKET, 1.0f, "dairy"));

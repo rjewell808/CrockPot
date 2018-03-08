@@ -18,7 +18,7 @@ public class CrockPot
 {
     public static final String MODID = "cp";
     public static final String NAME = "Crock Pot Mod";
-    public static final String VERSION = "0.0.3";
+    public static final String VERSION = "0.1.0";
     public static final String CLIENT_PROXY = "gruntpie224.crockpot.proxy.ClientProxy";
     public static final String COMMON_PROXY = "gruntpie224.crockpot.proxy.CommonProxy";
     
