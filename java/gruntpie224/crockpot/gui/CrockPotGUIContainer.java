@@ -26,7 +26,7 @@ public class CrockPotGUIContainer extends GuiContainer{
 	public static final int WIDTH = 180;
 	public static final int HEIGHT = 190;
 	
-	private static final ResourceLocation background = new ResourceLocation(CrockPot.MODID, "textures/gui/crockpotcontainer.png");
+	private static final ResourceLocation background = new ResourceLocation(CrockPot.MODID, "textures/gui/crockpot_gui.png");
 	private CrockContainerTileEntity crock_te;
 	private GuiButton cook_btn = new GuiButton(1, 192, 90, 40, 20, "Cook");
 	

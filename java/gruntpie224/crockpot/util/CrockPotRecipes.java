@@ -20,7 +20,6 @@ public class CrockPotRecipes {
 		for(int i = 0; i < food_values.length; i++)
 		{
 			this.food_values[i] = food_values[i];
-			System.out.println(i + " = " + food_values[i]);
 		}
 	}
 	

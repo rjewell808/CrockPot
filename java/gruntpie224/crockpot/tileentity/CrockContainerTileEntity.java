@@ -229,8 +229,6 @@ public class CrockContainerTileEntity extends TileEntity implements ITickable, I
     	
     	for(int k = 0; k < crock_foods.size(); k++)
     	{
-    		System.out.println((crock_foods.get(k).toString()));
-    		
     		for(int i = 0; i < SIZE; i++)
     		{
     			if((crock_foods.get(k)).isEqualToItem(((ItemStack)this.crockItemStacks.get(i)).getItem()))
@@ -242,11 +240,6 @@ public class CrockContainerTileEntity extends TileEntity implements ITickable, I
     			}
     		}
     	}
-    	
-    	for(int j = 0; j < food_values.length; j++)
-		{
-			System.out.println(j + ": " + food_values[j]);
-		}
     			
     }
     
