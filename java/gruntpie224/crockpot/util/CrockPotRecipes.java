@@ -54,6 +54,16 @@ public class CrockPotRecipes {
 		if(food_values[2] >= 0.5f && numberOf(Items.STICK) == 1)
 			return new ItemStack(ItemsInit.fish_sticks);
 		
+		//Priority 0
+		
+		if(food_values[4] >= 0.5f && numberOf(Items.STICK) == 0 && food_values[0] == 0 && food_values[5] == 0)
+			return new ItemStack(ItemsInit.fist_of_jam);
+		
+		//Priority -1
+		
+		if(food_values[0] >= 0.5f && numberOf(Items.STICK) == 0)
+			return new ItemStack(ItemsInit.meat_balls);
+		
 		return new ItemStack(ItemsInit.wet_goop);
 	}
 	
