@@ -24,11 +24,11 @@ import net.minecraftforge.fml.client.registry.ClientRegistry;
 
 public class CrockPotGUIContainer extends GuiContainer{
 	public static final int WIDTH = 180;
-	public static final int HEIGHT = 190;
+	public static final int HEIGHT = 200;
 	
 	private static final ResourceLocation background = new ResourceLocation(CrockPot.MODID, "textures/gui/crockpot_gui.png");
 	private CrockContainerTileEntity crock_te;
-	private GuiButton cook_btn = new GuiButton(1, 192, 90, 40, 20, "Cook");
+	private GuiButton cook_btn = new GuiButton(1, guiLeft + 69, guiTop + 75, 40, 20, "Cook");
 	
 	public CrockPotGUIContainer(CrockContainerTileEntity tileEntity, CrockPotContainer inventorySlotsIn) {
 		super(inventorySlotsIn);
@@ -43,6 +43,8 @@ public class CrockPotGUIContainer extends GuiContainer{
 	{
 		super.initGui();
 		cook_btn.enabled = false;
+		cook_btn.x = guiLeft + 69;
+		cook_btn.y = guiTop + 75;
 		
 		this.buttonList.add(cook_btn);
 	}
@@ -51,6 +53,10 @@ public class CrockPotGUIContainer extends GuiContainer{
 	public void updateScreen()
     {
 		super.updateScreen();
+		
+		cook_btn.x = guiLeft + 69;
+		cook_btn.y = guiTop + 75;
+		
 		if(crock_te.canSmelt())
 			((GuiButton)(buttonList.get(buttonList.indexOf(cook_btn)))).enabled = true;
 		else

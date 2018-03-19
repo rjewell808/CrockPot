@@ -83,7 +83,6 @@ public class CrockPotBlock extends BlockContainer implements ITileEntityProvider
 
             if (tileentity instanceof CrockContainerTileEntity)
             {
-                System.out.println("Drop Items");
             	InventoryHelper.dropInventoryItems(worldIn, pos, (CrockContainerTileEntity)tileentity);
                 worldIn.updateComparatorOutputLevel(pos, this);
             }

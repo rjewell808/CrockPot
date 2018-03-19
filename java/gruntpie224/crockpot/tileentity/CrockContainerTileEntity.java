@@ -381,7 +381,12 @@ public class CrockContainerTileEntity extends TileEntity implements ITickable, I
         {
             for(int i = 0; i < SIZE; i++)
             {
-            	this.crockItemStacks.get(i).shrink(1);
+            	if(this.crockItemStacks.get(i).isItemEqual(new ItemStack(Items.MILK_BUCKET))
+            			|| this.crockItemStacks.get(i).isItemEqual(new ItemStack(Items.LAVA_BUCKET))
+            			|| this.crockItemStacks.get(i).isItemEqual(new ItemStack(Items.WATER_BUCKET)))
+            		this.crockItemStacks.set(i, new ItemStack(Items.BUCKET));
+            	else
+            		this.crockItemStacks.get(i).shrink(1);
             }
         }
     }

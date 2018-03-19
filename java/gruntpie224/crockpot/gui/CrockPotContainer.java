@@ -35,8 +35,8 @@ public class CrockPotContainer extends Container{
 				int x = 9 + col * 18;
 				int y = row * 18 + 70;
 				if (row == 0)
-					y = 4 * 18 + 70;
-				this.addSlotToContainer(new Slot(playerInventory, col + row * 9, x, y));
+					y = 4 * 18 + 74;
+				this.addSlotToContainer(new Slot(playerInventory, col + row * 9, x, y + 17));
 			}
 		}
 	}
@@ -45,7 +45,7 @@ public class CrockPotContainer extends Container{
 	{
 		IItemHandler itemHandler = this.te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
 		int x = 9 + (4 * 18);
-		int y = -6;
+		int y = -5;
 		
 		int slotIndex = 0;
 		for(int i = 0; i < itemHandler.getSlots(); i++)
@@ -64,18 +64,13 @@ public class CrockPotContainer extends Container{
 		ItemStack itemstack = ItemStack.EMPTY;
 		Slot slot = this.inventorySlots.get(index);
 		
-		System.out.print("Slot " + index + " -> ");
 		if(slot != null && slot.getHasStack())
 		{
 			ItemStack itemstack1 = slot.getStack();
 			itemstack = itemstack1.copy();
 			
-			System.out.print("ItemStack " + itemstack1 + " -> ");
-			
 			if(index < CrockContainerTileEntity.SIZE)
 			{
-				System.out.print("TE Size " + CrockContainerTileEntity.SIZE + " -> ");
-				
 				if(!this.mergeItemStack(itemstack1, CrockContainerTileEntity.SIZE, this.inventorySlots.size(), true))
 				{
 					return ItemStack.EMPTY;
